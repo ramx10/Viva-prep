@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
-import { Sparkles, BookOpen, MessageSquare, ListChecks, Send, Loader2 } from 'lucide-react';
+import { Sparkles, BookOpen, MessageSquare, ListChecks, Send, Loader2, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
@@ -10,6 +10,39 @@ interface VivaResult {
   shortAnswer: string;
   vivaExplanation: string;
 }
+
+const CopyButton = ({ text }: { text: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors group relative"
+      title="Copy to clipboard"
+    >
+      {copied ? (
+        <Check className="w-4 h-4 text-emerald-400" />
+      ) : (
+        <Copy className="w-4 h-4 text-white/60 group-hover:text-white" />
+      )}
+      {copied && (
+        <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-emerald-500 text-white text-[10px] rounded font-bold uppercase tracking-tighter">
+          Copied!
+        </span>
+      )}
+    </button>
+  );
+};
 
 export default function App() {
 
@@ -83,7 +116,7 @@ Return the response strictly in JSON format:
         animate={{ opacity: 1 }}
         className="mb-4 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] uppercase tracking-widest text-white/60 font-medium"
       >
-        v1.2.0 • Gemini 1.5 Flash
+        v2.6.0 • Gemini 1.5 Flash
       </motion.div>
 
       {/* Header */}
@@ -187,7 +220,10 @@ Return the response strictly in JSON format:
             >
 
               {/* Exam Points */}
-              <motion.div whileHover={{ y: -5 }} className="glass-card p-6 rounded-3xl">
+              <motion.div whileHover={{ y: -5 }} className="glass-card p-6 rounded-3xl relative">
+                <div className="absolute top-4 right-4">
+                  <CopyButton text={result.examPoints.join('\n')} />
+                </div>
 
                 <div className="flex items-center gap-2 mb-4 text-purple-200">
                   <ListChecks className="w-5 h-5" />
@@ -208,7 +244,10 @@ Return the response strictly in JSON format:
               </motion.div>
 
               {/* Short Answer */}
-              <motion.div whileHover={{ y: -5 }} className="glass-card p-6 rounded-3xl">
+              <motion.div whileHover={{ y: -5 }} className="glass-card p-6 rounded-3xl relative">
+                <div className="absolute top-4 right-4">
+                  <CopyButton text={result.shortAnswer} />
+                </div>
 
                 <div className="flex items-center gap-2 mb-4 text-blue-200">
                   <BookOpen className="w-5 h-5" />
@@ -222,7 +261,10 @@ Return the response strictly in JSON format:
               </motion.div>
 
               {/* Viva Explanation */}
-              <motion.div whileHover={{ y: -5 }} className="glass-card p-6 rounded-3xl">
+              <motion.div whileHover={{ y: -5 }} className="glass-card p-6 rounded-3xl relative">
+                <div className="absolute top-4 right-4">
+                  <CopyButton text={result.vivaExplanation} />
+                </div>
 
                 <div className="flex items-center gap-2 mb-4 text-emerald-200">
                   <MessageSquare className="w-5 h-5" />
