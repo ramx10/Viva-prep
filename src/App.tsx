@@ -77,6 +77,14 @@ Return the response strictly in JSON format:
 
   return (
     <div className="min-h-screen font-sans p-4 md:p-8 flex flex-col items-center">
+      {/* Version Badge */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="mb-4 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] uppercase tracking-widest text-white/60 font-medium"
+      >
+        v1.2.0 • Gemini 1.5 Flash
+      </motion.div>
 
       {/* Header */}
       <header className="text-center mb-12 mt-8">
