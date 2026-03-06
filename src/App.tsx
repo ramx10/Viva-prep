@@ -148,6 +148,35 @@ Return the response strictly in JSON format:
       {/* Main Section */}
       <main className="w-full max-w-4xl space-y-8">
 
+        {/* Example Questions */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="space-y-4"
+        >
+          <div className="flex items-center gap-2 text-white/60 text-sm font-medium px-2">
+            <BookOpen className="w-4 h-4" />
+            <span>Example Questions</span>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {[
+              "Explain BFS Algorithm",
+              "Explain Machine Learning",
+              "Explain OSI Model",
+              "Explain DBMS"
+            ].map((topic) => (
+              <button
+                key={topic}
+                onClick={() => setInput(topic)}
+                className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white text-sm transition-all active:scale-95 backdrop-blur-sm"
+              >
+                {topic}
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Input */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
