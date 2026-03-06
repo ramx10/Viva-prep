@@ -3,7 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import { Sparkles, BookOpen, MessageSquare, ListChecks, Send, Loader2, Copy, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
 interface VivaResult {
   examPoints: string[];
@@ -80,8 +80,8 @@ Return the response strictly in JSON format:
 }
 `;
 
-      const response = await genAI.models.generateContent({
-        model: "gemini-1.5-flash",
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
         contents: [{ role: "user", parts: [{ text: prompt }] }],
         config: {
           responseMimeType: "application/json"
@@ -116,7 +116,7 @@ Return the response strictly in JSON format:
         animate={{ opacity: 1 }}
         className="mb-4 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] uppercase tracking-widest text-white/60 font-medium"
       >
-        v2.6.0 • Gemini 1.5 Flash
+        v4.1.0 • Gemini 1.5 Flash
       </motion.div>
 
       {/* Header */}
